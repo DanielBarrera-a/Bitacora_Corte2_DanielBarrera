@@ -72,6 +72,22 @@ controllers/Swagger → pruebas → persistencia → seguridad → Docker/CI-CD 
   - Lecciones: Azure for Students solo permite ciertas regiones (Policy → "Allowed resource deployment regions": germanywestcentral, switzerlandnorth, spaincentral, belgiumcentral, northcentralus). El nombre del Service Principal debe ser único en el tenant de la universidad. Los tokens y secretos se muestran una sola vez y nunca se comparten; si se filtran, se cambian.
 - Pendiente (solo el estudiante): capturas del README (pruebas/Jacoco, Docker, pipeline, cuentas de modelado y Figma), profesor colaborador.
 
+### 2026-10-13 — Bitácora Wok System
+- Requisitos: `DOSW_LABORATORIO_3_JDD/docs/requirements/` (RF-01..06). Plan: etapa 0 base → 1 Plato todas las capas → 2 Mongo → 3 pruebas → 4 Pedido → 5 JWT → 6 Mesa/Cuenta.
+- Etapa 0 ✅ (Claude): base copiada del parcial, paquete `edu.dosw.wok`. El estudiante pidió quitar los comentarios de autoría del código.
+- Etapa 1, grupo Dominio ✅
+  - Claude: enum `CategoriaPlato` (ejemplo). Estudiante: `Plato` (atributos, Lombok, `estaDisponible`, `activar`, `desactivar`).
+  - Errores y corrección: (1) importó Lombok pero no puso las anotaciones sobre la clase → importar ≠ usar; (2) atributos sin `private` → encapsulamiento; (3) `return disponible` con `Boolean` puede lanzar NullPointerException → `Boolean.TRUE.equals(disponible)`; (4) `activar(Boolean)` con parámetro inútil → los métodos de comportamiento no reciben lo que ya saben; (5) letra suelta → leer el error `[línea,columna] <identifier> expected`.
+
+- Etapa 1, grupo DTOs ✅ (Claude, a pedido del estudiante por tiempo): `PlatoResponseDTO` y `PlatoRequestDTO`.
+  - **Atasco**: escribió `@NotBlank("..." && )` → las reglas no se unen con `&&`; cada regla es una anotación apilada sobre el atributo, con `message = "..."`, y debajo va el atributo.
+  - Regla clave: String → `@NotBlank`; números/enums/objetos → `@NotNull`; sin anotación = opcional.
+
+- Cambio de modo (2026-10-13): la bitácora será una GUÍA de consulta para el parcial → Claude crea el código completo con comentarios largos (qué es / cómo se crea / errores) en cada archivo.
+- Plato completo ✅ (Mapper IN/OUT, Document, Repository, Service, Validator, excepciones, GlobalExceptionHandler, Controller, Swagger). Probado contra Mongo local (contenedor `mongo-wok`): 201, 400, 404, 409.
+- Pedido completo ✅ (enum con transiciones, ItemPedido embebido, `@Field`, consultas derivadas, `@Query`, Mapper OUT con listas). Probado: 201, 422 transición inválida, 400 ítems inválidos, tablero por estado.
+- ⚠️ Bug encontrado: en Spring Boot 4 la propiedad es `spring.mongodb.uri` (no `spring.data.mongodb.uri`). Con el nombre viejo Spring la ignora y usa `localhost:27017/test`. Corregido en bitácora y parcial (falta push del parcial).
+
 ## Guía de sustentación
 
 ### Parcial, paso 1: Repositorio

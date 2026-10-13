@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-// Completado por Claude: seguridad base del parcial.
+// Seguridad base del parcial.
 // TEMPORAL: /api/v1/** queda público para probar en Swagger mientras construimos.
 // En la etapa 5 (JWT y roles) se cierra con hasRole por endpoint.
 @Configuration

@@ -1,10 +1,12 @@
-# Completado por Claude: misma configuración base del parcial
+# Misma configuración base del parcial
 spring:
   application:
     name: Wok-System
-  data:
-    mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/wok_system}   # local por defecto
+  # Spring Boot 4: la propiedad es spring.mongodb.uri (en Boot 3 era spring.data.mongodb.uri).
+  # Si se usa el nombre viejo, Spring la ignora y se conecta a localhost:27017/test.
+  # ${MONGODB_URI:valor} = usa la variable de entorno; si no existe, el valor por defecto.
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/wok_system}   # local por defecto
 
 server:
   port: ${PORT:8080}
